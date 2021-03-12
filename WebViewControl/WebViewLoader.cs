@@ -38,12 +38,22 @@ namespace WebViewControl {
                 UserAgent = settings.UserAgent
             };
 
+            if (settings.OverrideCefSettings != null) {
+                foreach (var property in settings.OverrideCefSettings) {
+                    cefSettings.GetType().GetProperty(property.Key)?.SetValue(cefSettings, property.Value);
+                }
+            }
+
             var customSchemes = CustomSchemes.Select(s => new CustomScheme() { SchemeName = s, SchemeHandlerFactory = new SchemeHandlerFactory() }).ToArray();
 
-            var customFlags = new[] {
+            KeyValuePair<string, string>[] customFlags = new[] {
                 // enable experimental feature flags
                 new KeyValuePair<string, string>("enable-experimental-web-platform-features", null)
-            };
+            };;
+
+            if (settings.CustomFlags != null) {
+                customFlags = settings.CustomFlags;
+            }
 
             CefRuntimeLoader.Initialize(settings: cefSettings, flags: customFlags, customSchemes: customSchemes);
 

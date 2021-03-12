@@ -4,7 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
     <Configurations>Debug;Release;ReleaseAvalonia;ReleaseWPF;ReleaseAvaloniaRemoteDebugSupport</Configurations>
-    <RuntimeIdentifiers>osx-x64;win-x64</RuntimeIdentifiers>
+    <RuntimeIdentifiers>osx-x64;win-x64;linux-x64</RuntimeIdentifiers>
   </PropertyGroup>
     
   <PropertyGroup>
@@ -45,5 +45,8 @@
   <ItemGroup>
     <ProjectReference Include="..\WebViewControl.Avalonia\WebViewControl.Avalonia.csproj" />
   </ItemGroup>
-
+  <Target Name="CopyCustomContent" AfterTargets="AfterBuild">
+    <Exec Command="mkdir '$(TargetDir)/CefGlueBrowserProcess'; touch $(TargetDir)/CefGlueBrowserProcess/Xilium.CefGlue.BrowserProcess; chmod +x $(TargetDir)/CefGlueBrowserProcess/Xilium.CefGlue.BrowserProcess"
+          Condition="$(OS) == 'Unix' AND !Exists('$(TargetDir)/CefGlueBrowserProcess/Xilium.CefGlue.BrowserProcess')"/>
+  </Target>
 </Project>

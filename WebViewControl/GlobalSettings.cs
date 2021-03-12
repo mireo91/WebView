@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Xilium.CefGlue.Common;
 
 namespace WebViewControl {
 
     public class GlobalSettings {
-
+        public KeyValuePair<string, object>[]? OverrideCefSettings { get; set; }
+        public KeyValuePair<string, string>[]? CustomFlags{ get; set; }
         private bool persistCache;
         private bool enableErrorLogOnly;
         private bool osrEnabled = true;
